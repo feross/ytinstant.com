@@ -63,13 +63,45 @@ td { vertical-align: top; }
 
 
 /* ==|== primary styles =====================================================
-   Author: 
+   Author:
    ========================================================================== */
 
+#container {
+  margin: 10px auto;
+  width: 1000px;
+}
 
+#search {
+  display: block;
+  position: relative;
+  height: 30px;
+}
 
+#search * {
+  border: 0;
+  font: 17px arial, sans-serif;
+  height: 1.2em;
+  left: 3px;
+  line-height: 1.2em;
+  outline: 0;
+  outline-offset: 0;
+  position: absolute;
+  padding: 0px;
+  text-align: left;
+  top: 1px;
+  white-space: nowrap;
+}
 
+.query {
+  background: transparent;
+  color: black;
+  z-index: 2;
+}
 
+.suggestion {
+  color: silver;
+  z-index: 0;
+}
 
 
 
@@ -107,13 +139,13 @@ td { vertical-align: top; }
 
 
 /* ==|== print styles ======================================================= */
- 
+
 @media print {
-  * { background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important; -ms-filter: none !important; } 
+  * { background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important; -ms-filter: none !important; }
   a, a:visited { text-decoration: underline; }
   a[href]:after { content: " (" attr(href) ")"; }
   abbr[title]:after { content: " (" attr(title) ")"; }
-  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; } 
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }
   pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
   thead { display: table-header-group; }
   tr, img { page-break-inside: avoid; }

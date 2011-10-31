@@ -37,7 +37,12 @@
 
     </header>
     <div id="main" role="main">
+      <div id="search">
+        <input class="query" spellcheck="false"></input>
+        <div class="suggestion"></div>
+      </div>
 
+      <div id="player"></div>
     </div>
     <footer>
 
@@ -51,11 +56,8 @@
 
 
   <!-- scripts concatenated and minified via ant build script-->
-  <script defer src="/js/plugins.js"></script>
-  <script type="text/coffeescript">
-    alert "hey there"
-  </script>
-  <script src="/js/mylibs/coffee-script.js"></script>
+  <script src="/js/plugins.js"></script>
+  <script src="/js/script.js"></script>
   <!-- end scripts-->
 
 
