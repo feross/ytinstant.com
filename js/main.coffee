@@ -1,13 +1,16 @@
+# TODO: switch back to SWFObject method (it's much faster)
+# TODO: cache suggestions
+# TODO: cache search results
+# TODO: add old folder to repo
+
 onPlayerReady = (event) ->
-    alert 'ready'
-    search.player.playVideo()
+    # test
 
 onPlayerStateChange = (newState) ->
     # TODO: Go to next video in list on stop
-    alert 'statechange'
 
 window.onYouTubePlayerAPIReady = ->
-    window.player = window.search.player.yt = new YT.Player 'player',
+    window.search.player.yt = new YT.Player 'player',
         height: '390',
         width: '640',
         videoId: window.search.player.videoId,
