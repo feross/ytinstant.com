@@ -2,6 +2,7 @@ $ ->
     window.search = new Search()
 
 window.onYouTubePlayerReady = (playerId) ->
+    log 'ready'
     search.player.yt = document.getElementById(playerId)
     search.player.yt.addEventListener 'onStateChange', 'onYouTubePlayerStateChange'
 
@@ -9,6 +10,7 @@ window.onYouTubePlayerStateChange = (newState) ->
     # TODO: Go to next video in list on stop
 
 class Player
+
     constructor: (@domId) ->
         @yt = null
     
@@ -17,14 +19,14 @@ class Player
             allowScriptAccess: 'always'
             wmode: 'opaque' # Allow lightboxes to cover player
         atts =
-            id: @domId
+            id: 'ytplayer'
             allowFullScreen: 'true'
         
         swfobject.embedSWF "http://www.youtube.com/v/#{ encodeURIComponent(@videoId) }" +
         "&enablejsapi=1&playerapiid=#{ encodeURIComponent(@domId) }&rel=0&autoplay=1" +
         "&egm=0&loop=0&fs=1&showsearch=0&showinfo=0&iv_load_policy=3" +
         "&cc_load_policy=0&version=3&hd=1&disablekb=1",
-        'player', '480', '295', '8', null, null, params, atts
+        'ytplayer', '480', '295', '8', null, null, params, atts
     
     onReady: ->
     onPlayerStateChange: ->
@@ -64,14 +66,14 @@ class Player
 
 class Search
 
+    NUM_VID_THUMBS: 5
+
     constructor: ->
         @player = new Player('player')
-
-        @NUM_VID_THUMBS = 5
     
         # Save DOM elems for quick access
-        @.query = $('#search .query')
-        @.suggestion = $('#search .suggestion')
+        @query = $('#search .query')
+        @suggestion = $('#search .suggestion')
     
         @query.focus()
         @query.keyup (event) =>
@@ -79,15 +81,19 @@ class Search
   
     onSearch: (event) ->
         q = @query.val()
-        @maybeClearSuggestionText(q)
-    
+        
         if q == @lastQuery
             return
-    
+
         @lastQuery = q
+
+        # Clear suggestion text unless query is a prefix of suggestion
+        if @suggestion.text().indexOf(q) != 0 || q == ''
+            @suggestion.text ''
     
+        # Pause video on blank query
         if q == ''
-            @player.stopVideo()
+            @player.pauseVideo()
             return
     
         # Get suggestions
@@ -101,7 +107,8 @@ class Search
             success: (suggestions) =>
                 # use top suggestion, but if there is none then do exact keyword search
                 searchTerm = suggestions?[1]?[0]?[0] || q
-                @setSuggestionText(searchTerm)
+                
+                @suggestion.text searchTerm
                 @performSearch(searchTerm)
   
     performSearch: (s) ->
@@ -110,20 +117,14 @@ class Search
             type: 'GET'
             url: "http://gdata.youtube.com/feeds/api/videos?q=#{ encodeURIComponent(s) }" +
                  "&format=5&v=2&alt=jsonc" + # Force embeddable vids (format=5)
-                 "&max-results=#{ NUM_VID_THUMBS }"
+                 "&max-results=#{ @NUM_VID_THUMBS }"
             success: (responseData, textStatus, XMLHttpRequest) =>
                 if videoId = responseData?.data?.items?[0].id
-                    if videoId != @player.videoId
-                        @player.loadVideoById videoId 
-  
-    setSuggestionText: (text) ->
-        @suggestion.text text
-  
-    # Depending on what the user's next letter is, we should maybe clear the
-    # suggested text so it doesn't look weird.
-    maybeClearSuggestionText: (query) ->
-        if @suggestion.text().indexOf(query) == -1 or query == ''
-            @suggestion.text ''
+                    if videoId is @player.videoId
+                        @player.playVideo()
+                    else
+                        @player.loadVideoById videoId
+        
 
 
 
