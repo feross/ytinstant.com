@@ -1,35 +1,51 @@
-$ ->
-    window.search = new Search()
+onPlayerReady = (event) ->
+    alert 'ready'
+    search.player.playVideo()
 
-window.onYouTubePlayerReady = (playerId) ->
-    log 'ready'
-    search.player.yt = document.getElementById(playerId)
-    search.player.yt.addEventListener 'onStateChange', 'onYouTubePlayerStateChange'
-
-window.onYouTubePlayerStateChange = (newState) ->
+onPlayerStateChange = (newState) ->
     # TODO: Go to next video in list on stop
+    alert 'statechange'
+
+window.onYouTubePlayerAPIReady = ->
+    window.player = window.search.player.yt = new YT.Player 'player',
+        height: '390',
+        width: '640',
+        videoId: window.search.player.videoId,
+        playerVars:
+            autoplay: 1
+            cc_load_policy: 0
+            disablekb: 1
+            enablejsapi: 1
+            iv_load_policy: 3
+            origin: 'http://ytinstant.com'
+            rel: 0
+            wmode: 'opaque'
+        events:
+            'onReady': onPlayerReady
+            'onStateChange': onPlayerStateChange
 
 class Player
-
     constructor: (@domId) ->
         @yt = null
     
     init: (@videoId) ->
-        params =
-            allowScriptAccess: 'always'
-            wmode: 'opaque' # Allow lightboxes to cover player
-        atts =
-            id: 'ytplayer'
-            allowFullScreen: 'true'
+        # params =
+        #     allowScriptAccess: 'always'
+        #     wmode: 'opaque' # Allow lightboxes to cover player
+        # atts =
+        #     id: 'ytplayer'
         
-        swfobject.embedSWF "http://www.youtube.com/v/#{ encodeURIComponent(@videoId) }" +
-        "&enablejsapi=1&playerapiid=#{ encodeURIComponent(@domId) }&rel=0&autoplay=1" +
-        "&egm=0&loop=0&fs=1&showsearch=0&showinfo=0&iv_load_policy=3" +
-        "&cc_load_policy=0&version=3&hd=1&disablekb=1",
-        'ytplayer', '480', '295', '8', null, null, params, atts
-    
-    onReady: ->
-    onPlayerStateChange: ->
+        tag = document.createElement 'script'
+        tag.src = 'http://www.youtube.com/player_api'
+        firstScriptTag = document.getElementsByTagName('script')[0]
+        firstScriptTag.parentNode.insertBefore tag, firstScriptTag
+
+
+        # swfobject.embedSWF "http://www.youtube.com/v/#{ @videoId }" +
+        # "&enablejsapi=1&playerapiid=ytplayer&rel=0&autoplay=1" +
+        # "&egm=0&loop=0&fs=1&showsearch=0&showinfo=0&iv_load_policy=3" +
+        # "&cc_load_policy=0&version=3&hd=1&disablekb=1",
+        # @domId, '480', '295', '8', null, null, params, atts
     
     setPlaybackQuality: (quality) ->
         @yt.setPlaybackQuality quality if @yt?
@@ -69,7 +85,7 @@ class Search
     NUM_VID_THUMBS: 5
 
     constructor: ->
-        @player = new Player('player')
+        @player = new Player()
     
         # Save DOM elems for quick access
         @query = $('#search .query')
@@ -127,7 +143,8 @@ class Search
         
 
 
-
+$ ->
+    window.search = new Search()
 
 
 
