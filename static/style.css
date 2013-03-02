@@ -1,0 +1,374 @@
+html {
+  color: #000;
+  background: #FFF;
+  background-color: #EEEFF4;
+  font-size: 12px;
+}
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td {
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+fieldset,img {
+  border: 0;
+}
+
+address,caption,cite,code,dfn,em,strong,th,var,optgroup {
+  font-style: inherit;
+  font-weight: inherit;
+}
+
+li {
+  list-style: none;
+}
+
+caption,th {
+  text-align: left;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-size: 100%;
+  font-weight: 400;
+}
+
+q:before,q:after {
+  content: '';
+}
+
+abbr,acronym {
+  border: 0;
+  font-variant: normal;
+}
+
+legend {
+  color: #000;
+}
+
+input,button,textarea,select,optgroup,option {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+}
+
+input,button,textarea,select {
+  font-size: 100%;
+}
+
+body {
+  border: 0 none;
+  font-family: Arial;
+}
+
+#wrapper {
+  width: 1000px;
+  margin: 30px auto;
+}
+
+a:link,a:visited {
+  color: #3B5998;
+  text-decoration: none;
+}
+
+a:hover,a:active,.underline:link,.underline:visited {
+  text-decoration: underline;
+}
+
+#logo {
+  float: left;
+  margin: 0 15px 0 0;
+}
+
+#logo a {
+  display: block;
+  background: transparent url(/images/logo3.png) no-repeat top left;
+  width: 154px;
+  height: 32px;
+}
+
+#logo span {
+  display: none;
+}
+
+#header {
+  margin: 0 0 20px;
+}
+
+#searchBox {
+  width: 340px;
+  height: 30px;
+  font-size: 20px;
+  margin-right: 15px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  outline: none;
+  border: 2px solid #999;
+  padding: 0 5px 0 4px;
+}
+
+#searchBox:focus {
+  border: 2px solid #000;
+}
+
+#searchTermKeyword {
+  font-family: 'Reenie Beanie', arial, serif;
+  font-size: 30px;
+}
+
+.statusLoading {
+  background: #FFF url(/images/loading.gif) no-repeat 325px 50%;
+}
+
+.statusPlaying {
+  background: #FFF url(/images/playing.gif) no-repeat 325px 50%;
+}
+
+#shareTools span {
+  color: #333;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 2px;
+}
+
+#linkUrl,#embedUrl {
+  width: 280px;
+  height: 18px;
+  color: #666;
+  font-size: 14px;
+  margin-right: 15px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid #999;
+  padding: 1px;
+}
+
+#shareButtons {
+  float: left;
+  margin: 2px 15px 0 0;
+}
+
+#main {
+  margin: 20px 0 0;
+}
+
+#hidden {
+  display: none;
+  height: 0;
+}
+
+#videoDiv {
+  float: left;
+  margin: 0 10px 0 0;
+}
+
+#videoTools {
+  width: 695px;
+  margin: 10px 0 0;
+  padding: 10px;
+}
+
+.boxText {
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+#playlistWrapper {
+  float: left;
+  display: none;
+  position: relative;
+  vertical-align: top;
+  width: 260px;
+  overflow: hidden;
+}
+
+#playlist img {
+  clear: both;
+  height: 90px;
+  float: left;
+  vertical-align: top;
+  width: 120px;
+  margin: 0 5px 12px 0;
+}
+
+#playlist div {
+  float: left;
+  font-size: 12px;
+  width: 125px;
+  height: 40px;
+  margin: 6px 0 0;
+}
+
+#playlist a {
+  width: 260px;
+  display: block;
+}
+
+#buttonControl {
+  position: absolute;
+  z-index: 1000;
+  top: 32px;
+  left: 44px;
+}
+
+.play0 #buttonControl {
+  top: 32px;
+}
+
+.play1 #buttonControl {
+  top: 136px;
+}
+
+.play2 #buttonControl {
+  top: 237px;
+}
+
+.play3 #buttonControl {
+  top: 338px;
+}
+
+.play4 #buttonControl {
+  top: 439px;
+}
+
+#buttonControl a {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+.playButton #buttonControl {
+  background: transparent url(/images/player/player_play-1.png) no-repeat top left;
+}
+
+.pauseButton #buttonControl {
+  background: transparent url(/images/player/player_pause-1.png) no-repeat top left;
+}
+
+.footerBox,.mainBox {
+  border: 1px solid #AAA;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  vertical-align: top;
+}
+
+#footer {
+  font-size: 12px;
+  margin: 20px 0 0;
+}
+
+#tipDiv {
+  width: 322px;
+  margin: 10px 10px 0 0;
+  padding: 10px;
+}
+
+#socialButtons {
+  width: 330px;
+  margin: 10px;
+  padding: 10px;
+}
+
+#credit {
+  width: 230px;
+  margin: 10px 0 0 10px;
+  padding: 10px;
+}
+
+#credit p,#credit ul,#tip {
+  font-size: 12px;
+  line-height: 1.8em;
+  margin-left: 3px;
+}
+
+#additionalCredits {
+  display: none;
+  margin-left: 10px;
+}
+
+#additionalCredits li {
+  margin-left: 15px;
+  line-height: 1.3em;
+}
+
+.boxHeader {
+  font-size: 30px;
+  font-family: 'Josefin Sans Std Light', arial, serif;
+  margin: 0 0 7px;
+}
+
+#share2 {
+  width: 115px;
+}
+
+#buzzButton {
+  margin: 9px 0 0;
+}
+
+#stumbleButton {
+  margin: 10px 0;
+}
+
+#deliciousButton {
+  float: left;
+  margin: 10px 0;
+}
+
+#addthisButton {
+  color: #0B4994;
+  margin: 15px 0 10px -2px;
+}
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.clearfix {
+  display: inline-block;
+}
+
+html[xmlns] .clearfix {
+  display: block;
+}
+
+* html .clearfix {
+  height: 1%;
+}
+
+del,ins,.underline:hover,.underline:active {
+  text-decoration: none;
+}
+
+sup,sub {
+  vertical-align: baseline;
+}
+
+strong,.selectedThumb {
+  font-weight: 700;
+}
+
+#searchDiv,#shareTools,#socialButtons,#tipDiv,#credit,#share1,#share2,#share3 {
+  float: left;
+}
+
+#share1,#share3 {
+  width: 100px;
+}
+
+#likeButton,#tweetButton {
+  margin: 8px 0 0;
+}
