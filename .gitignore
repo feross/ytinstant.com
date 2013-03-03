@@ -1,5 +1,5 @@
-*.js
-!js/libs/*.js
+unfinished-coffeescript-port/*.js
+!unfinished-coffeescript-port/js/libs/*.js
 
 # Numerous always-ignore extensions
 *.diff
