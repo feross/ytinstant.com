@@ -34,7 +34,8 @@ function onYouTubePlayerReady(playerId) {
     $(this).select();
   });
   if (window.location.hash) {
-    $("#searchBox").val(getHash()).focus();
+    var searchTerm = $('<div/>').text(getHash()).html(); // escape html
+    $("#searchBox").val(searchTerm).focus();
   } else {
     var defaultSearches = [ "YouTube", "AutoTune", "Rihanna", "Far East Movement", "Glee Cast", "Nelly", "Usher", "Katy Perry", "Taio Cruz", "Eminem", "Shakira", "Kesha", "B.o.B.", "Taylor Swift", "Akon", "Bon Jovi", "Michael Jackson", "Lady Gaga", "Paramore", "Jay Z", "My Chemical Romance", "The Beatles", "Led Zepplin", "Guns N Roses", "AC DC", "System of a Down", "Aerosmith", "Tetris", "8-bit", "Borat", "Basshunter", "Fallout Boy", "Blink 182", "Pink Floyd", "Still Alive", "Men at Work", "MGMT", "Justin Bieber", "The Killers", "Bed intruder song", "Baba O Riley", "Billy Joel", "Drake", "Jay Sean" ];
     var randomNumber = Math.floor(Math.random() * defaultSearches.length);
