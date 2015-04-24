@@ -1,28 +1,36 @@
-google.load("swfobject", "2.1");
-
-google.load("jquery", "1.4.2");
-
 var INITIAL_VID_THUMBS = 5;
 
-function _run() {
-  loadPlayer();
+var player;
+var currentVideoId = "_2c5Fh3kfrI";
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('innerVideoDiv', {
+    height: '405',
+    width: '720',
+    videoId: currentVideoId,
+    playerVars: {
+      autoplay: 0,
+      cc_load_policy: 1,
+      controls: 1,
+      enablejsapi: 1,
+      iv_load_policy: 3,
+      showinfo: 0,
+      playerapiid: 'ytplayer',
+      rel: 0,
+      loop: 0
+    },
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  });
 }
 
-function loadPlayer() {
-  currentVideoId = "_2c5Fh3kfrI";
-  var params = {
-    allowScriptAccess: "always"
-  };
-  var atts = {
-    id: "ytPlayer",
-    allowFullScreen: "true"
-  };
-  swfobject.embedSWF("http://www.youtube.com/v/" + currentVideoId + "&enablejsapi=1&playerapiid=ytplayer" + "&rel=0&autoplay=0&egm=0&loop=0&fs=1&hd=0&showsearch=0&showinfo=0&iv_load_policy=3&cc_load_policy=1", "innerVideoDiv", "720", "405", "8", null, null, params, atts);
+function onPlayerReady(event) {
+  ytplayer = event.target;
 }
 
-function onYouTubePlayerReady(playerId) {
-  ytplayer = document.getElementById("ytPlayer");
-  ytplayer.addEventListener("onStateChange", "onPlayerStateChange");
+function onYouTubeDataAPIReady() {
   var searchBox = $("#searchBox");
   searchBox.keyup(doInstantSearch);
   $(document.documentElement).keydown(onKeyDown);
@@ -61,8 +69,8 @@ function onBodyLoad() {
   loadRandomTip();
 }
 
-function onPlayerStateChange(newState) {
-  playerState = newState;
+function onPlayerStateChange(event) {
+  playerState = event.data;
   if (pendingDoneWorking && playerState == 1) {
     doneWorking();
     pendingDoneWorking = false;
@@ -100,7 +108,7 @@ function goVid(playlistPos, playlistPage) {
     currentPlaylistPage = playlistPage;
     return;
   }
-  loadAndPlayVideo(playlistArr[playlistPage][playlistPos].id, playlistPos);
+  loadAndPlayVideo(playlistArr[playlistPage][playlistPos].id.videoId, playlistPos);
 }
 
 function doInstantSearch() {
@@ -162,22 +170,24 @@ yt.www.suggest.handleResponse = function(suggestions) {
 };
 
 function getTopSearchResult(keyword) {
-  var the_url = "http://gdata.youtube.com/feeds/api/videos?q=" + encodeURIComponent(keyword) + "&format=5&max-results=" + INITIAL_VID_THUMBS + "&v=2&alt=jsonc";
-  $.ajax({
-    type: "GET",
-    url: the_url,
-    dataType: "jsonp",
-    success: function(responseData, textStatus, XMLHttpRequest) {
-      if (responseData.data.items) {
-        var videos = responseData.data.items;
-        playlistArr = [];
-        playlistArr.push(videos);
-        updateVideoDisplay(videos);
-        pendingDoneWorking = true;
-      } else {
-        updateSuggestedKeyword('No results for "' + keyword + '"');
-        doneWorking();
-      }
+  var request = gapi.client.youtube.search.list({
+    maxResults: INITIAL_VID_THUMBS,
+    part: 'snippet',
+    q: keyword,
+    type: 'video',
+    videoEmbeddable: 'true'
+  });
+
+  request.execute(function(response) {
+    var videos = response.items;
+    if (videos) {
+      playlistArr = [];
+      playlistArr.push(videos);
+      updateVideoDisplay(videos);
+      pendingDoneWorking = true;
+    } else {
+      updateSuggestedKeyword('No results for "' + keyword + '"');
+      doneWorking();
     }
   });
 }
@@ -186,10 +196,10 @@ function updateVideoDisplay(videos) {
   var numThumbs = videos.length >= INITIAL_VID_THUMBS ? INITIAL_VID_THUMBS : videos.length;
   var playlist = $("<div />").attr("id", "playlist");
   for (var i = 0; i < numThumbs; i++) {
-    var videoId = videos[i].id;
-    var img = $("<img />").attr("src", videos[i].thumbnail.sqDefault);
+    var videoId = videos[i].id.videoId;
+    var img = $("<img />").attr("src", videos[i].snippet.thumbnails.default.url);
     var a = $("<a />").attr("href", "javascript:loadAndPlayVideo('" + videoId + "', " + i + ")");
-    var title = $("<div />").html(videos[i].title);
+    var title = $("<div />").html(videos[i].snippet.title);
     playlist.append(a.append(img).append(title));
   }
   var playlistWrapper = $("#playlistWrapper");
@@ -200,8 +210,8 @@ function updateVideoDisplay(videos) {
     playlistShowing = true;
   }
   currentPlaylistPos = -1;
-  if (currentVideoId != videos[0].id) {
-    loadAndPlayVideo(videos[0].id, 0, true);
+  if (currentVideoId != videos[0].id.videoId) {
+    loadAndPlayVideo(videos[0].id.videoId, 0, true);
   }
 }
 
@@ -381,4 +391,17 @@ String.prototype.toTitleCase = function() {
   });
 };
 
-google.setOnLoadCallback(_run);
+function loadYouTubeIframeAPI () {
+  var tag = document.createElement('script');
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
+
+loadYouTubeIframeAPI();
+
+function gapiInit() {
+  gapi.client.setApiKey('AIzaSyChxpylfmpVchkHyLQH6wLWH7cxtgftRmU');
+  gapi.client.load('youtube', 'v3').then(onYouTubeDataAPIReady);
+}
