@@ -1,0 +1,30 @@
+{
+  "name": "ytinstant.com",
+  "description": "",
+  "version": "1.0.0",
+  "author": {
+    "name": "Feross Aboukhadijeh",
+    "email": "feross@feross.org",
+    "url": "https://feross.org"
+  },
+  "bugs": {
+    "url": "https://github.com/feross/ytinstant.com/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "ecstatic": "^3.1.0"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/feross/ytinstant.com.git"
+  },
+  "scripts": {
+    "deploy": "git push && ssh future 'cd ~/www/ytinstant.com && git pull'",
+    "serve": "ecstatic --port 4000 static",
+    "start": "npm run serve",
+    "watch": "npm run serve"
+  }
+}

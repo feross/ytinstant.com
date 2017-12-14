@@ -1,6 +1,6 @@
 # [YouTube Instant](https://ytinstant.com) - Really fast YouTube search.
 
-It started out as a bet with my roommate, Jake Becker. I bet him I could build real-time YouTube search in less than an hour. Sadly, I lost the bet – It took me 3 hours to finish it, and another couple hours to polish the user interface into what you see now at [YTInstant.com](http://ytinstant.com). But, I’m happy with the result.
+It started out as a bet with my roommate, Jake Becker. I bet him I could build real-time YouTube search in less than an hour. Sadly, I lost the bet – It took me 3 hours to finish it, and another couple hours to polish the user interface into what you see now at [YTInstant.com](https://ytinstant.com). But, I’m happy with the result.
 
 It got 1 million visitors within 10 days of release, and the YouTube CEO, Chad Hurley, offered me a job over Twitter.
 
