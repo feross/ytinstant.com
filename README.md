@@ -4,19 +4,19 @@ It started out as a bet with my roommate, Jake Becker. I bet him I could build r
 
 It got 1 million visitors within 10 days of release, and the YouTube CEO, Chad Hurley, offered me a job over Twitter.
 
-Read more at [YouTube Instant. The last two days...](http://feross.org/youtube-instant-media-frenzy/), [I just met Chad Hurley at YouTube HQ](http://feross.org/visit-to-youtube-hq-to-meet-chad-hurley/), [One Million Visitors in 10 Days](http://feross.org/one-million-visitors-in-10-days/).
+Read more at [YouTube Instant. The last two days...](https://feross.org/youtube-instant-media-frenzy/), [I just met Chad Hurley at YouTube HQ](https://feross.org/visit-to-youtube-hq-to-meet-chad-hurley/), [One Million Visitors in 10 Days](https://feross.org/one-million-visitors-in-10-days/).
 
-Also, see the related [Instant.fm](http://instant.fm) project.
+Also, see the related [Instant.fm](https://instant.fm) project.
 
 ## About this repo
 
 Posting this code here now, since I've recently been asked for the original code several times. Until now, the only YouTube Instant code that's been available is the minified version on the live website and the unfinished coffee-script port I started and put here on GitHub. So, here's the orignal code now. For you.
 
-The code is pretty terrible, but that's part of the beauty of the whole thing. [None of Us Knows What We're Doing](http://feross.org/none-of-us-knows-what-were-doing/) and "Done is better than perfect" are totally true in this case. For a better representation of my programming ability, see my more recent repos.
+The code is pretty terrible, but that's part of the beauty of the whole thing. [None of Us Knows What We're Doing](https://feross.org/none-of-us-knows-what-were-doing/) and "Done is better than perfect" are totally true in this case. For a better representation of my programming ability, see my more recent repos.
 
 ## MIT License
 
-Copyright (c) 2012 [Feross Aboukhadijeh](http://feross.org)
+Copyright (c) 2012 [Feross Aboukhadijeh](https://feross.org)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
