@@ -23,8 +23,7 @@
   },
   "scripts": {
     "deploy": "git push && ssh future 'cd ~/www/ytinstant.com && git pull'",
-    "serve": "ecstatic --port 4000 static",
-    "start": "npm run serve",
-    "watch": "npm run serve"
+    "start": "ecstatic --port 4000 static",
+    "watch": "npm start"
   }
 }
