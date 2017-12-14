@@ -133,7 +133,7 @@ function doInstantSearch() {
   }
   searchBox.attr("class", "statusLoading");
   keyword = searchBox.val();
-  var the_url = "http://suggestqueries.google.com/complete/search?hl=en&ds=yt&client=youtube&hjson=t&jsonp=window.yt.www.suggest.handleResponse&q=" + encodeURIComponent(searchBox.val()) + "&cp=1";
+  var the_url = "https://suggestqueries.google.com/complete/search?hl=en&ds=yt&client=youtube&hjson=t&jsonp=window.yt.www.suggest.handleResponse&q=" + encodeURIComponent(searchBox.val()) + "&cp=1";
   $.ajax({
     type: "GET",
     url: the_url,
@@ -243,7 +243,7 @@ function updateHash(hash) {
     $("#fb_share").attr("share_url", window.location);
     $.ajax({
       type: "GET",
-      url: "http://static.ak.fbcdn.net/connect.php/js/FB.Share",
+      url: "https://static.ak.fbcdn.net/connect.php/js/FB.Share",
       dataType: "script"
     });
     $("#linkUrl").val(window.location);
@@ -258,8 +258,8 @@ function getHash() {
 
 function prepareFBShare() {
   $("#hidden").empty();
-  $("#hidden").append($('<a id="fb_share" name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a>'));
-  $("#hidden").append($('<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>'));
+  $("#hidden").append($('<a id="fb_share" name="fb_share" type="button_count" href="https://www.facebook.com/sharer.php">Share</a>'));
+  $("#hidden").append($('<script src="https://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>'));
 }
 
 function doFBShare() {
@@ -313,7 +313,7 @@ function loadAndPlayVideo(videoId, playlistPos, bypassXhrWorkingCheck) {
   var playlist = $("#playlist");
   playlist.children().removeClass("selectedThumb");
   playlist.children(":nth-child(" + (playlistPos + 1) + ")").addClass("selectedThumb");
-  $("#embedUrl").val('<object width="640" height="385"><param name="movie" value="http://www.youtube.com/v/' + currentVideoId + '?fs=1&hl=en_US"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/' + currentVideoId + '?fs=1&hl=en_US" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="385"></embed></object>');
+  $("#embedUrl").val('<object width="640" height="385"><param name="movie" value="https://www.youtube.com/v/' + currentVideoId + '?fs=1&hl=en_US"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="https://www.youtube.com/v/' + currentVideoId + '?fs=1&hl=en_US" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="385"></embed></object>');
 }
 
 function showCredits() {
