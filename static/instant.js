@@ -31,7 +31,7 @@ function onPlayerReady(event) {
 }
 
 function onYouTubeDataAPIReady() {
-  if (!ytplayer) {
+  if (typeof ytplayer === 'undefined') {
     console.log('ytplayer undefined when data ready')
   }
   var searchBox = $("#searchBox");
