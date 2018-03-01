@@ -31,6 +31,9 @@ function onPlayerReady(event) {
 }
 
 function onYouTubeDataAPIReady() {
+  if (!ytplayer) {
+    console.log('ytplayer undefined when data ready')
+  }
   var searchBox = $("#searchBox");
   searchBox.keyup(doInstantSearch);
   $(document.documentElement).keydown(onKeyDown);
