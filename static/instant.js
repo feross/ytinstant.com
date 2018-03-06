@@ -112,7 +112,6 @@ function onBodyLoad() {
 
 function onPlayerStateChange(event) {
   playerState = event.data;
-  console.log('onPlayerStateChange', playerState, 'pendingDoneWorking', pendingDoneWorking);
   if (pendingDoneWorking && (playerState == 1 || playerState == -1)) {
     doneWorking();
     pendingDoneWorking = false;
