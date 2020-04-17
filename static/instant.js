@@ -39,7 +39,6 @@ let currentSuggestion
 let playlistShowing
 let playlistArr
 let currentPlaylistPos
-let currentPlaylistPage
 let xhrWorking
 let pendingSearch
 let pendingDoneWorking
@@ -53,7 +52,6 @@ function onBodyLoad () {
   playlistShowing = false
   playlistArr = []
   currentPlaylistPos = 0
-  currentPlaylistPage = 0
   xhrWorking = false
   pendingSearch = false
   pendingDoneWorking = false
@@ -147,22 +145,18 @@ function goNextVideo () {
   if (currentPlaylistPos === INITIAL_VID_THUMBS - 1) {
     return
   }
-  goVid(currentPlaylistPos + 1, currentPlaylistPage)
+  goVid(currentPlaylistPos + 1)
 }
 
 function goPrevVideo () {
   if (currentPlaylistPos === 0) {
     return
   }
-  goVid(currentPlaylistPos - 1, currentPlaylistPage)
+  goVid(currentPlaylistPos - 1)
 }
 
-function goVid (playlistPos, playlistPage) {
-  if (playlistPage !== currentPlaylistPage) {
-    currentPlaylistPage = playlistPage
-    return
-  }
-  loadAndPlayVideo(playlistArr[playlistPage][playlistPos].id.videoId, playlistPos)
+function goVid (playlistPos) {
+  loadAndPlayVideo(playlistArr[playlistPos].id, playlistPos)
 }
 
 function doInstantSearch () {
@@ -228,7 +222,7 @@ function getTopSearchResult (keyword) {
     .then(res => res.json())
     .then(response => {
       console.log(response)
-      var videos = response.items
+      var videos = response.result.videos
       if (videos) {
         playlistArr = []
         playlistArr.push(videos)
@@ -245,10 +239,10 @@ function updateVideoDisplay (videos) {
   var numThumbs = videos.length >= INITIAL_VID_THUMBS ? INITIAL_VID_THUMBS : videos.length
   var playlist = $('<div />').attr('id', 'playlist')
   for (var i = 0; i < numThumbs; i++) {
-    var videoId = videos[i].id.videoId
-    var img = $('<img />').attr('src', videos[i].snippet.thumbnails.default.url)
+    var videoId = videos[i].id
+    var img = $('<img />').attr('src', `https://img.youtube.com/vi/${videoId}/default.jpg`)
     var a = $('<a />').attr('href', "javascript:loadAndPlayVideo('" + videoId + "', " + i + ')')
-    var title = $('<div />').html(videos[i].snippet.title)
+    var title = $('<div />').html(videos[i].title)
     playlist.append(a.append(img).append(title))
   }
   var playlistWrapper = $('#playlistWrapper')
@@ -259,8 +253,8 @@ function updateVideoDisplay (videos) {
     playlistShowing = true
   }
   currentPlaylistPos = -1
-  if (currentVideoId !== videos[0].id.videoId) {
-    loadAndPlayVideo(videos[0].id.videoId, 0, true)
+  if (currentVideoId !== videoId) {
+    loadAndPlayVideo(videoId, 0, true)
   }
 }
 
