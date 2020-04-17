@@ -224,8 +224,7 @@ function getTopSearchResult (keyword) {
       console.log(response)
       var videos = response.result.videos
       if (videos) {
-        playlistArr = []
-        playlistArr.push(videos)
+        playlistArr = videos
         updateVideoDisplay(videos)
         pendingDoneWorking = true
       } else {
