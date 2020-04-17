@@ -1,7 +1,11 @@
+/* global $ */
+
 var INITIAL_VID_THUMBS = 5
 
 var player
-var currentVideoId = '_2c5Fh3kfrI'
+let currentVideoId = '_2c5Fh3kfrI'
+
+$(document).ready(onBodyLoad)
 
 function onYouTubeIframeAPIReady () {
   player = new YT.Player('innerVideoDiv', {
@@ -30,9 +34,35 @@ function onPlayerReady (event) {
   ytplayer = event.target
 }
 
-function onYouTubeDataAPIReady () {
+let currentSearch
+let currentSuggestion
+let playlistShowing
+let playlistArr
+let currentPlaylistPos
+let currentPlaylistPage
+let xhrWorking
+let pendingSearch
+let pendingDoneWorking
+let playerState
+let hashTimeout
+
+function onBodyLoad () {
+  currentSearch = ''
+  currentSuggestion = ''
+  currentVideoId = ''
+  playlistShowing = false
+  playlistArr = []
+  currentPlaylistPos = 0
+  currentPlaylistPage = 0
+  xhrWorking = false
+  pendingSearch = false
+  pendingDoneWorking = false
+  playerState = -1
+  hashTimeout = false
+  loadRandomTip()
+
   if (typeof ytplayer === 'undefined') {
-    setTimeout(onYouTubeDataAPIReady, 250)
+    setTimeout(onBodyLoad, 250)
     return
   }
   var searchBox = $('#searchBox')
@@ -90,62 +120,45 @@ function onYouTubeDataAPIReady () {
     var randomNumber = Math.floor(Math.random() * defaultSearches.length)
     $('#searchBox').val(defaultSearches[randomNumber]).select().focus()
   }
-  onBodyLoad()
   doInstantSearch()
-}
-
-function onBodyLoad () {
-  currentSearch = ''
-  currentSuggestion = ''
-  currentVideoId = ''
-  playlistShowing = false
-  playlistArr = []
-  currentPlaylistPos = 0
-  currentPlaylistPage = 0
-  xhrWorking = false
-  pendingSearch = false
-  pendingDoneWorking = false
-  playerState = -1
-  hashTimeout = false
-  loadRandomTip()
 }
 
 function onPlayerStateChange (event) {
   playerState = event.data
-  if (pendingDoneWorking && (playerState == 1 || playerState == -1)) {
+  if (pendingDoneWorking && (playerState === 1 || playerState === -1)) {
     doneWorking()
     pendingDoneWorking = false
-  } else if (playerState == 0) {
+  } else if (playerState === 0) {
     goNextVideo()
   }
 }
 
 function onKeyDown (e) {
-  if (e.keyCode == 39 || e.keyCode == 40) {
+  if (e.keyCode === 39 || e.keyCode === 40) {
     goNextVideo()
-  } else if (e.keyCode == 37 || e.keyCode == 38) {
+  } else if (e.keyCode === 37 || e.keyCode === 38) {
     goPrevVideo()
-  } else if (e.keyCode == 13) {
+  } else if (e.keyCode === 13) {
     playPause()
   }
 }
 
 function goNextVideo () {
-  if (currentPlaylistPos == INITIAL_VID_THUMBS - 1) {
+  if (currentPlaylistPos === INITIAL_VID_THUMBS - 1) {
     return
   }
   goVid(currentPlaylistPos + 1, currentPlaylistPage)
 }
 
 function goPrevVideo () {
-  if (currentPlaylistPos == 0) {
+  if (currentPlaylistPos === 0) {
     return
   }
   goVid(currentPlaylistPos - 1, currentPlaylistPage)
 }
 
 function goVid (playlistPos, playlistPage) {
-  if (playlistPage != currentPlaylistPage) {
+  if (playlistPage !== currentPlaylistPage) {
     currentPlaylistPage = playlistPage
     return
   }
@@ -158,11 +171,11 @@ function doInstantSearch () {
     return
   }
   var searchBox = $('#searchBox')
-  if (searchBox.val() == currentSearch) {
+  if (searchBox.val() === currentSearch) {
     return
   }
   currentSearch = searchBox.val()
-  if (searchBox.val() == '') {
+  if (searchBox.val() === '') {
     $('#playlistWrapper').slideUp('slow')
     playlistShowing = false
     pauseVideo()
@@ -201,7 +214,7 @@ yt.www.suggest.handleResponse = function (suggestions) {
     updateSuggestedKeyword(searchTerm + ' (Exact search)')
   } else {
     updateSuggestedKeyword(searchTerm)
-    if (searchTerm == currentSuggestion) {
+    if (searchTerm === currentSuggestion) {
       doneWorking()
       return
     }
@@ -211,26 +224,21 @@ yt.www.suggest.handleResponse = function (suggestions) {
 }
 
 function getTopSearchResult (keyword) {
-  var request = gapi.client.youtube.search.list({
-    maxResults: INITIAL_VID_THUMBS,
-    part: 'snippet',
-    q: keyword,
-    type: 'video',
-    videoEmbeddable: 'true'
-  })
-
-  request.execute(function (response) {
-    var videos = response.items
-    if (videos) {
-      playlistArr = []
-      playlistArr.push(videos)
-      updateVideoDisplay(videos)
-      pendingDoneWorking = true
-    } else {
-      updateSuggestedKeyword('No results for "' + keyword + '"')
-      doneWorking()
-    }
-  })
+  var request = fetch('https://play.cash/api/video?q=' + encodeURIComponent(keyword) + '&maxResults=' + INITIAL_VID_THUMBS)
+    .then(res => res.json())
+    .then(response => {
+      console.log(response)
+      var videos = response.items
+      if (videos) {
+        playlistArr = []
+        playlistArr.push(videos)
+        updateVideoDisplay(videos)
+        pendingDoneWorking = true
+      } else {
+        updateSuggestedKeyword('No results for "' + keyword + '"')
+        doneWorking()
+      }
+    })
 }
 
 function updateVideoDisplay (videos) {
@@ -251,7 +259,7 @@ function updateVideoDisplay (videos) {
     playlistShowing = true
   }
   currentPlaylistPos = -1
-  if (currentVideoId != videos[0].id.videoId) {
+  if (currentVideoId !== videos[0].id.videoId) {
     loadAndPlayVideo(videos[0].id.videoId, 0, true)
   }
 }
@@ -336,7 +344,7 @@ function playVideo () {
 }
 
 function loadAndPlayVideo (videoId, playlistPos, bypassXhrWorkingCheck) {
-  if (currentPlaylistPos == playlistPos) {
+  if (currentPlaylistPos === playlistPos) {
     playPause()
     return
   }
@@ -413,10 +421,10 @@ function getVolume () {
 
 function playPause () {
   if (ytplayer) {
-    if (playerState == 1) {
+    if (playerState === 1) {
       pauseVideo()
       $('#playlistWrapper').removeClass('pauseButton').addClass('playButton')
-    } else if (playerState == 2) {
+    } else if (playerState === 2) {
       playVideo()
       $('#playlistWrapper').removeClass('playButton').addClass('pauseButton')
     }
@@ -441,8 +449,3 @@ function loadYouTubeIframeAPI () {
 }
 
 loadYouTubeIframeAPI()
-
-function gapiInit () {
-  gapi.client.setApiKey('AIzaSyChxpylfmpVchkHyLQH6wLWH7cxtgftRmU')
-  gapi.client.load('youtube', 'v3').then(onYouTubeDataAPIReady)
-}
