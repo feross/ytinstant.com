@@ -221,7 +221,6 @@ function getTopSearchResult (keyword) {
   var request = fetch('https://play.cash/api/video?q=' + encodeURIComponent(keyword) + '&maxResults=' + INITIAL_VID_THUMBS)
     .then(res => res.json())
     .then(response => {
-      console.log(response)
       var videos = response.result.videos
       if (videos) {
         playlistArr = videos
